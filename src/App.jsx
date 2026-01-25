@@ -1,9 +1,22 @@
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Header from "./layout/Header";
+import Footer from "./layout/Footer";
+import PageContent from "./layout/PageContent";
+import HomePage from "./pages/HomePage";
+
 function App() {
   return (
-    <div className="text-red-500 text-2xl font-bold">
-  Tailwind is working
-</div>
+    <Router>
+      <Header />
 
+      <PageContent>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+        </Switch>
+      </PageContent>
+
+      <Footer />
+    </Router>
   );
 }
 
