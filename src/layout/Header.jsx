@@ -5,6 +5,7 @@ import {
   Heart,
   User,
   ChevronDown,
+  Menu,
 } from "lucide-react";
 
 const Header = () => {
@@ -18,10 +19,10 @@ const Header = () => {
         <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-700">
           <Link to="/">Home</Link>
 
-          <div className="flex items-center gap-1 cursor-pointer">
+          <Link to="/shop" className="flex items-center gap-1">
             <span>Shop</span>
             <ChevronDown size={14} />
-          </div>
+          </Link>
 
           <Link to="/">About</Link>
           <Link to="/">Blog</Link>
@@ -32,7 +33,7 @@ const Header = () => {
         <div className="flex items-center gap-6 text-gray-700">
           <Link
             to="/login"
-            className="flex items-center gap-1 text-blue-500 font-semibold text-sm"
+            className="hidden md:flex items-center gap-1 text-blue-500 font-semibold text-sm"
           >
             <User size={16} />
             Login / Register
@@ -47,12 +48,14 @@ const Header = () => {
             </span>
           </div>
 
-          <div className="relative cursor-pointer">
+          <div className="relative cursor-pointer hidden md:block">
             <Heart size={18} />
             <span className="absolute -top-2 -right-2 text-xs text-blue-500">
               1
             </span>
           </div>
+
+          <Menu size={24} className="md:hidden cursor-pointer" />
         </div>
       </div>
     </header>
