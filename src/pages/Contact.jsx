@@ -13,7 +13,7 @@ const Contact = () => {
       style={{
         backgroundImage: `url(${contactBg})`,
         backgroundSize: "cover",
-        backgroundPosition: "center bot",
+        backgroundPosition: "center ",
       }}
     >
       <div className="max-w-7xl mx-auto px-6 w-full">

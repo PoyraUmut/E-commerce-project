@@ -7,7 +7,8 @@ import PageContent from "./layout/PageContent";
 import HomePage from "./pages/HomePage";
 import ShopPage from "./pages/ShopPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
-import Contact from "./pages/Contact"; 
+import Contact from "./pages/Contact";
+import TeamPage from "./pages/TeamPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/shop" component={ShopPage} />
           <Route exact path="/product-detail" component={ProductDetailPage} />
           <Route exact path="/contact" component={Contact} />
+          <Route exact path="/team" component={TeamPage} />
         </Switch>
       </PageContent>
 

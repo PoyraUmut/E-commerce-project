@@ -27,7 +27,6 @@ const Header = () => {
           <Link to="/">About</Link>
           <Link to="/">Blog</Link>
 
-          {/* 🔽 SADECE BURASI DEĞİŞTİ */}
           <Link to="/contact">Contact</Link>
 
           <Link to="/">Pages</Link>
