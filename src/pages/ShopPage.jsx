@@ -139,7 +139,7 @@ const ShopPage = () => {
                 showDepartment
                 showSales
                 showColors
-                imageFit="cover"
+                imageFit="contain"
               />
             ))}
           </div>

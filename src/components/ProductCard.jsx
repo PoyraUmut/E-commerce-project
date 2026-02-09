@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const ProductCard = ({ 
   image, 
   title, 
@@ -8,10 +10,13 @@ const ProductCard = ({
   showSales = false,
   salesCount = 0,
   showColors = false,
-  imageFit = "contain" // 👈 YENİ
+  imageFit = "contain" 
 }) => {
   return (
-    <div className="flex flex-col gap-4 group cursor-pointer">
+    <Link
+      to="/product-detail"
+      className="flex flex-col gap-4 group cursor-pointer"
+    >
       <div className="relative aspect-square bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center">
         <img
           src={image}
@@ -29,12 +34,6 @@ const ProductCard = ({
         {showDepartment && (
           <p className="text-sm font-medium text-gray-500">
             {department}
-          </p>
-        )}
-
-        {showSales && (
-          <p className="text-sm text-gray-500">
-            {salesCount} Sales
           </p>
         )}
 
@@ -56,7 +55,7 @@ const ProductCard = ({
           </div>
         )}
       </div>
-    </div>
+    </Link>
   );
 };
 
