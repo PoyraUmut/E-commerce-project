@@ -16,18 +16,16 @@ const brands = [
 
 const BrandBar = () => {
   return (
-    <section className="border-y border-gray-200 py-8 sm:py-10 lg:py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-center gap-8 sm:gap-12 lg:gap-16">
-        {brands.map((brand) => (
-          <img
-            key={brand.alt}
-            src={brand.src}
-            alt={brand.alt}
-            className="h-6 sm:h-8 lg:h-10 opacity-70 hover:opacity-100 transition"
-          />
-        ))}
-      </div>
-    </section>
+    <div className="grid grid-cols-1 sm:grid-cols-3 md:flex md:flex-wrap items-center justify-between gap-8 sm:gap-12">
+      {brands.map((brand) => (
+        <img
+          key={brand.alt}
+          src={brand.src}
+          alt={brand.alt}
+          className="h-6 sm:h-8 lg:h-10 opacity-70 hover:opacity-100 transition mx-auto md:mx-0"
+        />
+      ))}
+    </div>
   );
 };
 

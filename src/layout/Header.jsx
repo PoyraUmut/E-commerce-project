@@ -24,7 +24,11 @@ const Header = () => {
             <ChevronDown size={14} />
           </Link>
 
-          <Link to="/">About</Link>
+          <Link to="/about" className="flex items-center gap-1">
+            <span>About</span>
+            
+          </Link>
+
           <Link to="/">Blog</Link>
 
           <Link to="/contact">Contact</Link>

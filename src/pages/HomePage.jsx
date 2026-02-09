@@ -270,8 +270,11 @@ const HomePage = () => {
       </section>
 
       <BestsellerRow />
-      <BrandBar />
-
+      <section className="border-y border-gray-200 py-8 sm:py-10 lg:py-12">
+  <div className="max-w-7xl mx-auto px-6">
+    <BrandBar />
+  </div>
+</section>
       <section className="px-6 py-12">
         <div className="max-w-7xl mx-auto px-6 py-20">
           <div className="text-center mb-12">
