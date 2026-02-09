@@ -39,7 +39,7 @@ export default function ProductDetailPage() {
     <div className="max-w-7xl mx-auto px-4 py-16">
       
 
-      {/* BREADCRUMB UI */}
+     
 <div className="mb-12 flex items-center gap-3">
   <span className="text-base font-semibold text-gray-900">
     Home
