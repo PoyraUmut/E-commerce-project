@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
@@ -10,6 +12,8 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import Contact from "./pages/Contact";
 import TeamPage from "./pages/TeamPage";
 import AboutUsPage from "./pages/AboutUsPage";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -24,10 +28,14 @@ function App() {
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/team" component={TeamPage} />
           <Route exact path="/about" component={AboutUsPage} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/login" component={Login} />
         </Switch>
       </PageContent>
 
       <Footer />
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </Router>
   );
 }

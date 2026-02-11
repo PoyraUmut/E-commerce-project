@@ -1,11 +1,11 @@
 import {
-  FaFacebookF,
-  FaInstagram,
-  FaTwitter,
-  FaPhoneAlt,
-  FaMapMarkerAlt,
-  FaEnvelope,
-} from "react-icons/fa";
+  Facebook,
+  Instagram,
+  Twitter,
+  Phone,
+  MapPin,
+  Mail,
+} from "lucide-react";
 
 const Footer = () => {
   return (
@@ -77,15 +77,15 @@ const Footer = () => {
             </h4>
             <ul className="flex flex-col gap-4">
               <li className="flex items-center gap-3">
-                <FaPhoneAlt />
+                <Phone size={16} />
                 (480) 555-0103
               </li>
               <li className="flex items-center gap-3">
-                <FaMapMarkerAlt />
+                <MapPin size={16} />
                 4517 Washington Ave.
               </li>
               <li className="flex items-center gap-3">
-                <FaEnvelope />
+                <Mail size={16} />
                 debra.holt@example.com
               </li>
             </ul>
@@ -98,10 +98,10 @@ const Footer = () => {
             Made With Love By Finland All Right Reserved
           </p>
 
-          <div className="flex gap-5 text-[#23A6F0] text-lg">
-            <FaFacebookF />
-            <FaInstagram />
-            <FaTwitter />
+          <div className="flex gap-5 text-[#23A6F0]">
+            <Facebook size={20} />
+            <Instagram size={20} />
+            <Twitter size={20} />
           </div>
         </div>
 

@@ -41,7 +41,7 @@ const products = [
 
 const ShopPage = () => {
   return (
-    <div className="flex flex-col gap-20">
+    <div className="flex flex-col gap-20 pb-20">
 
       {/* PAGE HEADER */}
       <section className="px-6 pt-12">
@@ -162,7 +162,12 @@ const ShopPage = () => {
         </div>
       </section>
 
-      <BrandBar />
+      {/* BrandBar with wrapper */}
+      <section className="border-y border-gray-200 py-8 sm:py-10 lg:py-12">
+        <div className="max-w-7xl mx-auto px-6">
+          <BrandBar />
+        </div>
+      </section>
     </div>
   );
 };

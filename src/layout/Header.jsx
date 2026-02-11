@@ -12,10 +12,13 @@ const Header = () => {
   return (
     <header className="w-full border-b">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+        
+        {/* Logo */}
         <Link to="/" className="font-bold text-2xl">
           Bandage
         </Link>
 
+        {/* Navigation */}
         <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-700">
           <Link to="/">Home</Link>
 
@@ -24,26 +27,31 @@ const Header = () => {
             <ChevronDown size={14} />
           </Link>
 
-          <Link to="/about" className="flex items-center gap-1">
-            <span>About</span>
-            
-          </Link>
+          <Link to="/about">About</Link>
 
           <Link to="/">Blog</Link>
 
           <Link to="/contact">Contact</Link>
 
-          <Link to="/">Pages</Link>
+          <Link to="/team">Pages</Link>
         </nav>
 
+        {/* Right Side */}
         <div className="flex items-center gap-6 text-gray-700">
-          <Link
-            to="/login"
-            className="hidden md:flex items-center gap-1 text-blue-500 font-semibold text-sm"
-          >
-            <User size={16} />
-            Login / Register
-          </Link>
+          
+          {/* Login & Register */}
+          <div className="hidden md:flex items-center gap-2 text-blue-500 font-semibold text-sm">
+            <Link to="/login" className="flex items-center gap-1">
+              <User size={16} />
+              Login
+            </Link>
+
+            <span className="text-gray-400">/</span>
+
+            <Link to="/signup">
+              Register
+            </Link>
+          </div>
 
           <Search size={18} className="cursor-pointer" />
 
