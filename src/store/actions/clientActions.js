@@ -1,8 +1,22 @@
 import api from "../../api/axios";
 
+/* ========================
+   BASIC ACTIONS
+======================== */
+
 export const setUser = (user) => ({
   type: "SET_USER",
   payload: user,
+});
+
+export const setToken = (token) => ({
+  type: "SET_TOKEN",
+  payload: token,
+});
+
+export const setLoginFetchState = (state) => ({
+  type: "SET_LOGIN_FETCH_STATE",
+  payload: state,
 });
 
 export const setRoles = (roles) => ({
@@ -25,6 +39,10 @@ export const setRolesFetchState = (state) => ({
   payload: state,
 });
 
+/* ========================
+   ROLES FETCH
+======================== */
+
 export const fetchRolesIfNeeded = () => {
   return async (dispatch, getState) => {
     const { roles, rolesFetchState } = getState().client;
@@ -40,11 +58,37 @@ export const fetchRolesIfNeeded = () => {
 
       dispatch(setRoles(response.data));
       dispatch(setRolesFetchState("FETCHED"));
-
     } catch (error) {
       dispatch(setRolesFetchState("FAILED"));
       console.error("Roles fetch failed:", error);
     }
   };
 };
+
+export const loginUser =
+  (formData, rememberMe) =>
+  async (dispatch) => {
+
+    dispatch(setLoginFetchState("FETCHING"));
+
+    try {
+      const response = await api.post("/login", formData);
+
+      const { token, name, email, role_id } = response.data;
+
+      dispatch(setUser({ name, email, role_id }));
+      dispatch(setToken(token));
+      dispatch(setLoginFetchState("SUCCESS"));
+
+      if (rememberMe) {
+        localStorage.setItem("token", token);
+      }
+
+      return true; 
+    } catch (error) {
+      dispatch(setLoginFetchState("FAILED"));
+      return false;
+    }
+  };
+
 

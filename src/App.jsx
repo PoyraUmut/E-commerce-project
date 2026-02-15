@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +17,19 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 
 function App() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
+
   return (
     <Router>
       <Header />
@@ -35,7 +49,10 @@ function App() {
 
       <Footer />
 
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer
+        position={isMobile ? "bottom-center" : "top-right"}
+        autoClose={3000}
+      />
     </Router>
   );
 }
