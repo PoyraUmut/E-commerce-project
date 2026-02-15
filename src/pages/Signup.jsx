@@ -2,11 +2,22 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+
 import api from "../api/axios";
+import { fetchRolesIfNeeded } from "../store/actions/clientActions";
 
 const Signup = () => {
   const history = useHistory();
-  const [roles, setRoles] = useState([]);
+  const dispatch = useDispatch();
+
+  const roles = useSelector((state) => state.client.roles);
+
+  const rolesFetchState = useSelector(
+  (state) => state.client.rolesFetchState
+);
+
+
   const [loading, setLoading] = useState(false);
 
   const {
@@ -16,24 +27,15 @@ const Signup = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      role_id: 3, 
+      role_id: 3,
     },
   });
 
   const selectedRole = watch("role_id");
 
   useEffect(() => {
-    const fetchRoles = async () => {
-      try {
-        const response = await api.get("/roles");
-        setRoles(response.data);
-      } catch (error) {
-        toast.error("Failed to load roles.");
-      }
-    };
-
-    fetchRoles();
-  }, []);
+    dispatch(fetchRolesIfNeeded());
+  }, [dispatch]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -156,7 +158,7 @@ const Signup = () => {
                     value:
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/,
                     message:
-                      "Password must be 8+ characters with at least one uppercase letter, one lowercase letter, one number, and one special character.",
+                      "Password must be 8+ characters with uppercase, lowercase, number and special character.",
                   },
                 })}
               />
@@ -185,6 +187,12 @@ const Signup = () => {
               )}
             </div>
 
+            {rolesFetchState === "FETCHING" && (
+  <p className="text-sm text-gray-500 mb-2">
+    Loading roles...
+  </p>
+)}
+
             <select
               className="w-full border rounded-md p-2"
               {...register("role_id")}
@@ -199,85 +207,77 @@ const Signup = () => {
             {Number(selectedRole) === 2 && (
               <div className="space-y-3 border-t pt-4">
 
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Store Name"
-                    className="w-full border rounded-md p-2"
-                    {...register("store_name", {
-                      required: "Store name required",
-                      minLength: {
-                        value: 3,
-                        message: "Minimum 3 characters",
-                      },
-                    })}
-                  />
-                  {errors.store_name && (
-                    <p className="text-red-500 text-xs">
-                      {errors.store_name.message}
-                    </p>
-                  )}
-                </div>
+                <input
+                  type="text"
+                  placeholder="Store Name"
+                  className="w-full border rounded-md p-2"
+                  {...register("store_name", {
+                    required: "Store name required",
+                    minLength: {
+                      value: 3,
+                      message: "Minimum 3 characters",
+                    },
+                  })}
+                />
+                {errors.store_name && (
+                  <p className="text-red-500 text-xs">
+                    {errors.store_name.message}
+                  </p>
+                )}
 
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Store Phone (TR)"
-                    className="w-full border rounded-md p-2"
-                    {...register("store_phone", {
-                      required: "Phone required",
-                      pattern: {
-                        value: /^(\+90|0)?5\d{9}$/,
-                        message: "Invalid TR phone",
-                      },
-                    })}
-                  />
-                  {errors.store_phone && (
-                    <p className="text-red-500 text-xs">
-                      {errors.store_phone.message}
-                    </p>
-                  )}
-                </div>
+                <input
+                  type="text"
+                  placeholder="Store Phone (TR)"
+                  className="w-full border rounded-md p-2"
+                  {...register("store_phone", {
+                    required: "Phone required",
+                    pattern: {
+                      value: /^(\+90|0)?5\d{9}$/,
+                      message: "Invalid TR phone",
+                    },
+                  })}
+                />
+                {errors.store_phone && (
+                  <p className="text-red-500 text-xs">
+                    {errors.store_phone.message}
+                  </p>
+                )}
 
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Tax ID (TXXXXVXXXXXX)"
-                    className="w-full border rounded-md p-2"
-                    {...register("store_tax_no", {
-                      required: "Tax no required",
-                      pattern: {
-                        value: /^T\d{4}V\d{6}$/,
-                        message: "Format must be TXXXXVXXXXXX",
-                      },
-                    })}
-                  />
-                  {errors.store_tax_no && (
-                    <p className="text-red-500 text-xs">
-                      {errors.store_tax_no.message}
-                    </p>
-                  )}
-                </div>
+                <input
+                  type="text"
+                  placeholder="Tax ID (TXXXXVXXXXXX)"
+                  className="w-full border rounded-md p-2"
+                  {...register("store_tax_no", {
+                    required: "Tax no required",
+                    pattern: {
+                      value: /^T\d{4}V\d{6}$/,
+                      message: "Format must be TXXXXVXXXXXX",
+                    },
+                  })}
+                />
+                {errors.store_tax_no && (
+                  <p className="text-red-500 text-xs">
+                    {errors.store_tax_no.message}
+                  </p>
+                )}
 
-                <div>
-                  <input
-                    type="text"
-                    placeholder="IBAN (TR)"
-                    className="w-full border rounded-md p-2"
-                    {...register("store_bank_account", {
-                      required: "IBAN required",
-                      pattern: {
-                        value: /^TR\d{24}$/,
-                        message: "Invalid TR IBAN",
-                      },
-                    })}
-                  />
-                  {errors.store_bank_account && (
-                    <p className="text-red-500 text-xs">
-                      {errors.store_bank_account.message}
-                    </p>
-                  )}
-                </div>
+                <input
+                  type="text"
+                  placeholder="IBAN (TR)"
+                  className="w-full border rounded-md p-2"
+                  {...register("store_bank_account", {
+                    required: "IBAN required",
+                    pattern: {
+                      value: /^TR\d{24}$/,
+                      message: "Invalid TR IBAN",
+                    },
+                  })}
+                />
+                {errors.store_bank_account && (
+                  <p className="text-red-500 text-xs">
+                    {errors.store_bank_account.message}
+                  </p>
+                )}
 
               </div>
             )}
