@@ -216,7 +216,6 @@ export default function ProductDetailPage() {
 
 <section className="py-24">
   <div className="max-w-7xl mx-auto px-4">
-    {/* TITLE */}
     <h3 className="text-xl font-bold tracking-wide text-gray-900">
       BESTSELLER PRODUCTS
     </h3>

@@ -1,8 +1,4 @@
-import api from "../../api/axios";
-
-/* ========================
-   BASIC ACTIONS
-======================== */
+import api, { setAuthToken } from "../../api/axios";
 
 export const setUser = (user) => ({
   type: "SET_USER",
@@ -39,10 +35,6 @@ export const setRolesFetchState = (state) => ({
   payload: state,
 });
 
-/* ========================
-   ROLES FETCH
-======================== */
-
 export const fetchRolesIfNeeded = () => {
   return async (dispatch, getState) => {
     const { roles, rolesFetchState } = getState().client;
@@ -68,7 +60,6 @@ export const fetchRolesIfNeeded = () => {
 export const loginUser =
   (formData, rememberMe) =>
   async (dispatch) => {
-
     dispatch(setLoginFetchState("FETCHING"));
 
     try {
@@ -76,19 +67,46 @@ export const loginUser =
 
       const { token, name, email, role_id } = response.data;
 
+      setAuthToken(token);
+
       dispatch(setUser({ name, email, role_id }));
       dispatch(setToken(token));
       dispatch(setLoginFetchState("SUCCESS"));
 
       if (rememberMe) {
         localStorage.setItem("token", token);
+      } else {
+        localStorage.removeItem("token");
       }
 
-      return true; 
+      return true;
     } catch (error) {
       dispatch(setLoginFetchState("FAILED"));
       return false;
     }
   };
 
+export const verifyToken = () => async (dispatch) => {
+  const token = localStorage.getItem("token");
 
+  if (!token) return;
+
+  try {
+    setAuthToken(token);
+
+    const response = await api.get("/verify");
+
+    const { token: newToken, name, email, role_id } = response.data;
+
+    setAuthToken(newToken);
+    localStorage.setItem("token", newToken);
+
+    dispatch(setUser({ name, email, role_id }));
+    dispatch(setToken(newToken));
+  } catch (error) {
+    localStorage.removeItem("token");
+    setAuthToken(null);
+    dispatch(setUser(null));
+    dispatch(setToken(null));
+  }
+};

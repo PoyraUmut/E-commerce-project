@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,8 +17,15 @@ import AboutUsPage from "./pages/AboutUsPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 
+import { verifyToken } from "./store/actions/clientActions";
+
 function App() {
+  const dispatch = useDispatch();
   const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    dispatch(verifyToken());
+  }, [dispatch]);
 
   useEffect(() => {
     const checkScreen = () => {

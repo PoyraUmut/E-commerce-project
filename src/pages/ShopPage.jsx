@@ -43,7 +43,6 @@ const ShopPage = () => {
   return (
     <div className="flex flex-col gap-20 pb-20">
 
-      {/* PAGE HEADER */}
       <section className="px-6 pt-12">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <h1 className="text-2xl font-bold text-gray-900">Shop</h1>
@@ -56,7 +55,6 @@ const ShopPage = () => {
         </div>
       </section>
 
-      {/* CATEGORY GRID */}
       <section className="px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
@@ -73,7 +71,6 @@ const ShopPage = () => {
         </div>
       </section>
 
-      {/* FILTER BAR */}
       <section className="px-6">
         <div className="max-w-7xl mx-auto">
 
@@ -85,12 +82,10 @@ const ShopPage = () => {
             "
           >
 
-            {/* LEFT */}
             <p className="text-sm text-[#737373]">
               Showing all 12 results
             </p>
 
-            {/* RIGHT */}
             <div
               className="
                 flex flex-col items-center gap-6
@@ -98,7 +93,6 @@ const ShopPage = () => {
               "
             >
 
-              {/* VIEWS */}
               <div className="flex items-center justify-center gap-4">
                 <span className="text-sm text-[#737373]">Views:</span>
 
@@ -111,7 +105,6 @@ const ShopPage = () => {
                 </button>
               </div>
 
-              {/* SORT + FILTER */}
               <div className="flex items-center justify-center gap-4">
                 <select className="border px-6 py-3 rounded-md text-sm text-gray-500">
                   <option>Popularity</option>
@@ -125,7 +118,6 @@ const ShopPage = () => {
             </div>
           </div>
 
-          {/* PRODUCT GRID */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {products.map((img, index) => (
               <ProductCard
@@ -144,7 +136,6 @@ const ShopPage = () => {
             ))}
           </div>
 
-          {/* PAGINATION */}
           <div className="flex justify-center mt-16">
             <div className="flex border rounded-md overflow-hidden text-sm">
               <button className="px-4 py-2 text-gray-400">First</button>
@@ -162,7 +153,6 @@ const ShopPage = () => {
         </div>
       </section>
 
-      {/* BrandBar with wrapper */}
       <section className="border-y border-gray-200 py-8 sm:py-10 lg:py-12">
         <div className="max-w-7xl mx-auto px-6">
           <BrandBar />

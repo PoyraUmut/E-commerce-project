@@ -12,7 +12,6 @@ const Footer = () => {
     <footer className="bg-[#252B42] text-white px-6 py-20">
       <div className="max-w-7xl mx-auto flex flex-col gap-16">
 
-        {/* TOP */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
             <h2 className="text-2xl font-bold">
@@ -28,7 +27,6 @@ const Footer = () => {
           </button>
         </div>
 
-        {/* LINKS */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10 text-sm">
           {[
             {
@@ -70,7 +68,6 @@ const Footer = () => {
             </div>
           ))}
 
-          {/* GET IN TOUCH */}
           <div>
             <h4 className="font-semibold mb-4">
               Get In Touch
@@ -92,7 +89,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* BOTTOM */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs">
             Made With Love By Finland All Right Reserved
