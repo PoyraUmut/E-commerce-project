@@ -89,7 +89,11 @@ export const loginUser =
 export const verifyToken = () => async (dispatch) => {
   const token = localStorage.getItem("token");
 
-  if (!token) return;
+   if (!token) {
+    dispatch({ type: "SET_AUTH_LOADING", payload: false }); 
+    return;
+  }
+
 
   try {
     setAuthToken(token);
@@ -108,5 +112,8 @@ export const verifyToken = () => async (dispatch) => {
     setAuthToken(null);
     dispatch(setUser(null));
     dispatch(setToken(null));
+  }
+  finally {
+    dispatch({ type: "SET_AUTH_LOADING", payload: false }); 
   }
 };

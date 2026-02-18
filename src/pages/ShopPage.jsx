@@ -1,163 +1,249 @@
-import shop1 from "../assets/shop-1.png";
-import shop2 from "../assets/shop-2.png";
-import shop3 from "../assets/shop-3.png";
-import shop4 from "../assets/shop-4.png";
-import shop5 from "../assets/shop-5.png";
-
-import shopResult1 from "../assets/shop-results-1.jpg";
-import shopResult2 from "../assets/shop-results-2.jpg";
-import shopResult3 from "../assets/shop-results-3.jpg";
-import shopResult4 from "../assets/shop-results-4.jpg";
-import shopResult5 from "../assets/shop-results-5.jpg";
-import shopResult6 from "../assets/shop-results-6.jpg";
-import shopResult7 from "../assets/shop-results-7.jpg";
-import shopResult8 from "../assets/shop-results-8.jpg";
-import shopResult9 from "../assets/shop-results-9.jpg";
-import shopResult10 from "../assets/shop-results-10.jpg";
-import shopResult11 from "../assets/shop-results-11.jpg";
-import shopResult12 from "../assets/shop-results-12.jpg";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 
 import ProductCard from "../components/ProductCard";
 import BrandBar from "../components/BrandBar";
-
 import { LayoutGrid, List } from "lucide-react";
-
-const categories = [shop1, shop2, shop3, shop4, shop5];
-
-const products = [
-  shopResult1,
-  shopResult2,
-  shopResult3,
-  shopResult4,
-  shopResult5,
-  shopResult6,
-  shopResult7,
-  shopResult8,
-  shopResult9,
-  shopResult10,
-  shopResult11,
-  shopResult12,
-];
+import { fetchProducts, fetchCategories, setOffset } from "../store/actions/productActions";
 
 const ShopPage = () => {
+  const dispatch = useDispatch();
+  const { gender, categoryName, categoryId } = useParams();
+
+  const {
+    productList = [],
+    categories = [],
+    total = 0,
+    limit = 25,
+    offset = 0,
+    fetchState,
+  } = useSelector((state) => state.product);
+
+  const [sort, setSort] = useState("rating:desc");
+  const [filter, setFilter] = useState("");
+  const [filterInput, setFilterInput] = useState("");
+  const [view, setView] = useState("grid");
+
+  const currentPage = Math.floor(offset / limit) + 1;
+  const totalPages = Math.ceil(total / limit);
+
+  useEffect(() => {
+    if (!categories.length) {
+      dispatch(fetchCategories());
+    }
+  }, [dispatch, categories.length]);
+
+  useEffect(() => {
+    dispatch(setOffset(0));
+  }, [dispatch, categoryId, gender]);
+
+  useEffect(() => {
+    let query = "";
+
+    if (categoryId) query += `&category=${categoryId}`;
+    if (sort) query += `&sort=${sort}`;
+    if (filter) query += `&filter=${filter}`;
+
+    dispatch(fetchProducts(query));
+  }, [dispatch, categoryId, gender, limit, offset, sort, filter]);
+
+  const changePage = (newPage) => {
+    dispatch(setOffset((newPage - 1) * limit));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const convertGender = (value) => (value === "k" ? "kadin" : "erkek");
+
+  const mapUrlGenderToCode = (value) => {
+    if (value === "kadin") return "k";
+    if (value === "erkek") return "e";
+    return value;
+  };
+
+  const slugify = (text = "") =>
+    text
+      .toLowerCase()
+      .replace(/ı/g, "i")
+      .replace(/ş/g, "s")
+      .replace(/ç/g, "c")
+      .replace(/ö/g, "o")
+      .replace(/ü/g, "u")
+      .replace(/ğ/g, "g")
+      .replace(/\s+/g, "-")
+      .replace(/[^\w-]+/g, "");
+
+  const topCategories = [...categories]
+    .filter((cat) =>
+      gender ? cat.gender === mapUrlGenderToCode(gender) : true
+    )
+    .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+    .slice(0, 5);
+
   return (
     <div className="flex flex-col gap-20 pb-20">
 
       <section className="px-6 pt-12">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <h1 className="text-2xl font-bold text-gray-900">Shop</h1>
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-2xl font-bold text-gray-900">
+            {categoryName || "Shop"}
+          </h1>
+        </div>
+      </section>
 
-          <div className="text-sm text-gray-500 flex items-center gap-2">
-            <span className="text-gray-900 font-medium">Home</span>
-            <span>{">"}</span>
-            <span>Shop</span>
-          </div>
+      <section className="px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-6">
+          {topCategories.map((cat) => (
+            <Link
+              key={cat.id}
+              to={`/shop/${convertGender(cat.gender)}/${slugify(cat.title)}/${cat.id}`}
+            >
+              <img
+                src={cat.img}
+                alt={cat.title}
+                className="w-full h-full object-cover"
+              />
+            </Link>
+          ))}
         </div>
       </section>
 
       <section className="px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-            {categories.map((img, index) => (
-              <div key={index} className="overflow-hidden">
-                <img
-                  src={img}
-                  alt="category"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      <section className="px-6">
-        <div className="max-w-7xl mx-auto">
-
-          <div
-            className="
-              flex flex-col items-center text-center gap-8
-              md:flex-row md:justify-between md:items-center md:text-left
-              mb-12
-            "
-          >
-
+          <div className="flex justify-between items-center mb-12">
             <p className="text-sm text-[#737373]">
-              Showing all 12 results
+              Showing {productList.length} of {total} results
             </p>
 
-            <div
-              className="
-                flex flex-col items-center gap-6
-                sm:flex-row sm:items-center
-              "
-            >
+            <div className="flex gap-4 items-center flex-wrap">
 
-              <div className="flex items-center justify-center gap-4">
-                <span className="text-sm text-[#737373]">Views:</span>
+              <button
+                onClick={() => setView("grid")}
+                className={`w-10 h-10 border flex items-center justify-center ${
+                  view === "grid" ? "bg-gray-200" : ""
+                }`}
+              >
+                <LayoutGrid size={18} />
+              </button>
+              <button
+                onClick={() => setView("list")}
+                className={`w-10 h-10 border flex items-center justify-center ${
+                  view === "list" ? "bg-gray-200" : ""
+                }`}
+              >
+                <List size={18} />
+              </button>
 
-                <button className="w-12 h-12 border rounded-md flex items-center justify-center">
-                  <LayoutGrid size={18} />
-                </button>
+              <input
+                type="text"
+                value={filterInput}
+                onChange={(e) => setFilterInput(e.target.value)}
+                placeholder="Search products..."
+                className="border px-4 py-2 rounded-md text-sm"
+              />
 
-                <button className="w-12 h-12 border rounded-md flex items-center justify-center">
-                  <List size={18} />
-                </button>
-              </div>
+              <select
+                value={sort}
+                onChange={(e) => {
+                  dispatch(setOffset(0));
+                  setSort(e.target.value);
+                }}
+                className="border px-4 py-2 rounded-md text-sm"
+              >
+                <option value="rating:desc">Rating: High to Low</option>
+                <option value="rating:asc">Rating: Low to High</option>
+                <option value="price:asc">Price: Low to High</option>
+                <option value="price:desc">Price: High to Low</option>
+              </select>
 
-              <div className="flex items-center justify-center gap-4">
-                <select className="border px-6 py-3 rounded-md text-sm text-gray-500">
-                  <option>Popularity</option>
-                </select>
-
-                <button className="bg-[#23A6F0] text-white px-8 py-3 rounded-md text-sm font-semibold">
-                  Filter
-                </button>
-              </div>
+              <button
+                onClick={() => {
+                  dispatch(setOffset(0));
+                  setFilter(filterInput);
+                }}
+                className="bg-[#23A6F0] text-white px-4 py-2 rounded-md text-sm"
+              >
+                Filter
+              </button>
 
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {products.map((img, index) => (
+          <div
+            className={
+              view === "grid"
+                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+                : "flex flex-col gap-8"
+            }
+          >
+            {fetchState === "FETCHING" && (
+              <div className="col-span-4 flex justify-center py-20">
+                <div className="w-10 h-10 border-4 border-[#23A6F0] border-t-transparent rounded-full animate-spin" />
+              </div>
+            )}
+
+            {fetchState !== "FETCHING" && productList.length === 0 && (
+              <div className="col-span-4 text-center py-20 text-gray-400">
+                No products found.
+              </div>
+            )}
+
+            {fetchState !== "FETCHING" && productList.map((product) => (
               <ProductCard
-                key={index}
-                image={img}
-                title="Graphic Design"
-                department="English Department"
-                oldPrice={16.48}
-                price={6.48}
-                salesCount={15}
-                showDepartment
-                showSales
-                showColors
-                imageFit="contain"
+                key={product.id}
+                product={product}
+                view={view}
+                gender={gender}           
+                categoryName={categoryName} 
+                categoryId={categoryId}   
               />
             ))}
           </div>
 
-          <div className="flex justify-center mt-16">
-            <div className="flex border rounded-md overflow-hidden text-sm">
-              <button className="px-4 py-2 text-gray-400">First</button>
-              <button className="px-4 py-2 border-l bg-[#23A6F0] text-white">
-                1
-              </button>
-              <button className="px-4 py-2 border-l">2</button>
-              <button className="px-4 py-2 border-l">3</button>
-              <button className="px-4 py-2 border-l text-[#23A6F0]">
-                Next
-              </button>
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-16">
+              <div className="flex border rounded-md overflow-hidden text-sm">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => changePage(1)}
+                  className="px-4 py-2 text-gray-400 disabled:opacity-40"
+                >
+                  First
+                </button>
+
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                  <button
+                    key={p}
+                    onClick={() => changePage(p)}
+                    className={`px-4 py-2 border-l ${
+                      currentPage === p ? "bg-[#23A6F0] text-white" : ""
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => changePage(currentPage + 1)}
+                  className="px-4 py-2 border-l text-[#23A6F0] disabled:opacity-40"
+                >
+                  Next
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
         </div>
       </section>
 
-      <section className="border-y border-gray-200 py-8 sm:py-10 lg:py-12">
+      <section className="border-y border-gray-200 py-8">
         <div className="max-w-7xl mx-auto px-6">
           <BrandBar />
         </div>
       </section>
+
     </div>
   );
 };

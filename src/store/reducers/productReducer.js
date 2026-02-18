@@ -1,17 +1,29 @@
 const initialState = {
   categories: [],
+  categoriesFetchState: "NOT_FETCHED",
+
   productList: [],
   total: 0,
-  limit: 25,
+
+  limit: 12,
   offset: 0,
   filter: "",
+  product: null,
   fetchState: "NOT_FETCHED",
 };
 
+
+
 export const productReducer = (state = initialState, action) => {
   switch (action.type) {
+
+
     case "SET_CATEGORIES":
       return { ...state, categories: action.payload };
+
+    case "SET_CATEGORIES_FETCH_STATE":
+      return { ...state, categoriesFetchState: action.payload };
+
 
     case "SET_PRODUCT_LIST":
       return { ...state, productList: action.payload };
@@ -31,7 +43,11 @@ export const productReducer = (state = initialState, action) => {
     case "SET_FILTER":
       return { ...state, filter: action.payload };
 
+    case "SET_PRODUCT":
+      return { ...state, product: action.payload };
+
     default:
       return state;
   }
 };
+

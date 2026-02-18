@@ -1,115 +1,132 @@
-import { useState } from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Heart,
-  ShoppingCart,
-  Eye,
-} from "lucide-react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useHistory } from "react-router-dom";
+import { ChevronLeft, ChevronRight, Heart, ShoppingCart, Eye, ArrowLeft } from "lucide-react";
+import { fetchProduct } from "../store/actions/productActions";
+import { addToCart } from "../store/actions/shoppingCartActions";
 import ProductCard from "../components/ProductCard";
 import BrandBar from "../components/BrandBar";
 
-
-import mainImg from "../assets/pdetail1.jpg";
-import thumb1 from "../assets/pdetail2.jpg";
-import thumb2 from "../assets/pdetail3.jpg";
-import b1 from "../assets/b1.jpg";
-import b2 from "../assets/b2.jpg";
-import b3 from "../assets/b3.jpg";
-import b4 from "../assets/b4.jpg";
-import b5 from "../assets/b5.jpg";
-import b6 from "../assets/b6.jpg";
-import b7 from "../assets/b7.jpg";
-import b8 from "../assets/b8.jpg";
-
 export default function ProductDetailPage() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { productId } = useParams();
+
+  const { product, fetchState, productList } = useSelector((state) => state.product);
+
   const [activeTab, setActiveTab] = useState("description");
-  const bestsellerProducts = [
-  { image: b1 },
-  { image: b2 },
-  { image: b3 },
-  { image: b4 },
-  { image: b5 },
-  { image: b6 },
-  { image: b7 },
-  { image: b8 },
-];
+  const [activeImage, setActiveImage] = useState(0);
+
+  useEffect(() => {
+    if (productId) {
+      dispatch(fetchProduct(productId));
+    }
+  }, [dispatch, productId]);
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+  };
+
+  if (fetchState === "FETCHING") {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="w-10 h-10 border-4 border-[#23A6F0] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!product) return null;
+
+  const images = product.images || [];
+  const mainImage = images[activeImage]?.url || "https://via.placeholder.com/600";
+  const stars = Math.round(product.rating || 0);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-16">
-      
 
-     
-<div className="mb-12 flex items-center gap-3">
-  <span className="text-base font-semibold text-gray-900">
-    Home
-  </span>
+      {/* BREADCRUMB + BACK */}
+      <div className="mb-12 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <span className="text-base font-semibold text-gray-900">Home</span>
+          <span className="text-lg text-gray-400 font-semibold">&gt;</span>
+          <span className="text-base text-gray-400 font-medium">Shop</span>
+          <span className="text-lg text-gray-400 font-semibold">&gt;</span>
+          <span className="text-base text-gray-400 font-medium">{product.name}</span>
+        </div>
+        <button
+          onClick={() => history.goBack()}
+          className="flex items-center gap-2 text-sm text-[#23A6F0] hover:underline"
+        >
+          <ArrowLeft size={16} />
+          Back
+        </button>
+      </div>
 
-  <span className="text-lg text-gray-400 font-semibold">
-    &gt;
-  </span>
-
-  <span className="text-base text-gray-400 font-medium">
-    Shop
-  </span>
-</div>
+      {/* PRODUCT */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+
+        {/* IMAGES */}
         <div>
           <div className="relative bg-gray-50 rounded-lg">
             <img
-              src={mainImg}
-              alt="Product"
-              className="w-full rounded-lg"
+              src={mainImage}
+              alt={product.name}
+              className="w-full rounded-lg object-contain"
             />
-
-            <button className="absolute left-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow">
-              <ChevronLeft />
-            </button>
-
-            <button className="absolute right-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow">
-              <ChevronRight />
-            </button>
+            {images.length > 1 && (
+              <>
+                <button
+                  onClick={() => setActiveImage((prev) => Math.max(prev - 1, 0))}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow"
+                >
+                  <ChevronLeft />
+                </button>
+                <button
+                  onClick={() => setActiveImage((prev) => Math.min(prev + 1, images.length - 1))}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow"
+                >
+                  <ChevronRight />
+                </button>
+              </>
+            )}
           </div>
 
           <div className="flex gap-4 mt-6">
-            <img
-              src={thumb1}
-              alt=""
-              className="w-20 border rounded cursor-pointer"
-            />
-            <img
-              src={thumb2}
-              alt=""
-              className="w-20 border rounded cursor-pointer"
-            />
+            {images.map((img, i) => (
+              <img
+                key={i}
+                src={img.url}
+                alt=""
+                onClick={() => setActiveImage(i)}
+                className={`w-20 h-20 object-cover border rounded cursor-pointer ${
+                  activeImage === i ? "border-[#23A6F0] border-2" : ""
+                }`}
+              />
+            ))}
           </div>
         </div>
 
+        {/* DETAILS */}
         <div className="space-y-6">
-          <h1 className="text-2xl font-bold text-gray-900">
-            Floating Phone
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-900">{product.name}</h1>
 
           <div className="flex items-center gap-2 text-sm">
-            ⭐⭐⭐⭐☆
-            <span className="text-gray-500">(10 Reviews)</span>
+            {"⭐".repeat(stars)}{"☆".repeat(5 - stars)}
+            <span className="text-gray-500">({product.sell_count} Reviews)</span>
           </div>
 
           <p className="text-2xl font-semibold text-gray-900">
-            $1,139.33
+            ${product.price?.toFixed(2)}
           </p>
 
           <p className="text-sm">
-            Availability :{" "}
-            <span className="text-blue-500 font-medium">
-              In Stock
+            Availability:{" "}
+            <span className={product.stock > 0 ? "text-blue-500 font-medium" : "text-red-500 font-medium"}>
+              {product.stock > 0 ? "In Stock" : "Out of Stock"}
             </span>
           </p>
 
-          <p className="text-gray-600 leading-relaxed">
-            Met minim Mollie non desert Alamo est sit cliquey dolor do met sent.
-            RELIT official consequent door ENIM RELIT Mollie.
-          </p>
+          <p className="text-gray-600 leading-relaxed">{product.description}</p>
 
           <hr />
 
@@ -124,20 +141,19 @@ export default function ProductDetailPage() {
             <button className="bg-blue-500 text-white px-6 py-3 rounded font-medium">
               Select Options
             </button>
-
-            <button className="border p-3 rounded-full">
-              <Heart size={18} />
-            </button>
-            <button className="border p-3 rounded-full">
+            <button className="border p-3 rounded-full"><Heart size={18} /></button>
+            <button
+              onClick={handleAddToCart}
+              className="border p-3 rounded-full hover:bg-blue-50 transition"
+            >
               <ShoppingCart size={18} />
             </button>
-            <button className="border p-3 rounded-full">
-              <Eye size={18} />
-            </button>
+            <button className="border p-3 rounded-full"><Eye size={18} /></button>
           </div>
         </div>
       </div>
 
+      {/* TABS */}
       <div className="mt-24">
         <div className="flex justify-center gap-12 border-b text-gray-500 font-semibold">
           {["description", "info", "reviews"].map((tab) => (
@@ -145,102 +161,50 @@ export default function ProductDetailPage() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`pb-4 capitalize ${
-                activeTab === tab
-                  ? "text-black border-b-2 border-black"
-                  : ""
+                activeTab === tab ? "text-black border-b-2 border-black" : ""
               }`}
             >
-              {tab === "info"
-                ? "Additional Information"
-                : tab === "reviews"
-                ? "Reviews (0)"
-                : "Description"}
+              {tab === "info" ? "Additional Information" : tab === "reviews" ? `Reviews (${product.sell_count})` : "Description"}
             </button>
           ))}
         </div>
 
         {activeTab === "description" && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-16">
-            <img
-              src={mainImg}
-              alt=""
-              className="rounded-xl"
-            />
-
-            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-12">
-              <div>
-                <h3 className="text-xl font-bold mb-4">
-                  the quick fox jumps over
-                </h3>
-                <p className="text-gray-600">
-                  Met minim Mollie non desert Alamo est sit cliquey dolor
-                  do met sent. RELIT official consequent door ENIM RELIT Mollie.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-xl font-bold mb-6">
-                  the quick fox jumps over
-                </h3>
-
-                {Array(4)
-                  .fill(0)
-                  .map((_, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3 text-gray-600 mb-4"
-                    >
-                      <ChevronRight size={18} />
-                      <span>
-                        the quick fox jumps over the lazy dog
-                      </span>
-                    </div>
-                  ))}
-              </div>
+            <img src={mainImage} alt="" className="rounded-xl" />
+            <div className="md:col-span-2">
+              <h3 className="text-xl font-bold mb-4">{product.name}</h3>
+              <p className="text-gray-600">{product.description}</p>
             </div>
           </div>
         )}
 
         {activeTab === "info" && (
-          <p className="text-center text-gray-600 mt-16">
-            Additional product information will be here.
-          </p>
+          <div className="mt-16 text-gray-600 space-y-2">
+            <p><strong>Stock:</strong> {product.stock}</p>
+            <p><strong>Rating:</strong> {product.rating}</p>
+            <p><strong>Sell Count:</strong> {product.sell_count}</p>
+          </div>
         )}
 
         {activeTab === "reviews" && (
-          <p className="text-center text-gray-600 mt-16">
-            No reviews yet.
-          </p>
+          <p className="text-center text-gray-600 mt-16">No reviews yet.</p>
         )}
       </div>
 
-<section className="py-24">
-  <div className="max-w-7xl mx-auto px-4">
-    <h3 className="text-xl font-bold tracking-wide text-gray-900">
-      BESTSELLER PRODUCTS
-    </h3>
+      {productList.length > 0 && (
+        <section className="py-24">
+          <h3 className="text-xl font-bold tracking-wide text-gray-900">BESTSELLER PRODUCTS</h3>
+          <div className="w-full h-px bg-gray-200 mt-6 mb-12" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {productList.slice(0, 8).map((item) => (
+              <ProductCard key={item.id} product={item} />
+            ))}
+          </div>
+        </section>
+      )}
 
-    <div className="w-full h-px bg-gray-200 mt-6 mb-12" />
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-      {bestsellerProducts.map((item, index) => (
-        <ProductCard
-          key={index}
-          image={item.image}
-          title="Graphic Design"
-          department="English Department"
-          oldPrice="16.48"
-          price="6.48"
-        />
-      ))}
+      <BrandBar />
     </div>
-  </div>
-</section>
-
- <BrandBar />
-
-    </div>
-
-    
   );
 }

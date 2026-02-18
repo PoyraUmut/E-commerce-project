@@ -16,8 +16,11 @@ import TeamPage from "./pages/TeamPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-
+import CartPage from "./pages/CartPage";
+import CheckOutPage from "./pages/CheckOutPage.jsx";
+import { fetchCategories } from "./store/actions/productActions";
 import { verifyToken } from "./store/actions/clientActions";
+import OrdersPage from "./pages/OrdersPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,15 +28,17 @@ function App() {
 
   useEffect(() => {
     dispatch(verifyToken());
+    dispatch(fetchCategories());
+
   }, [dispatch]);
 
   useEffect(() => {
     const checkScreen = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    setIsMobile(window.innerWidth < 768);
+  };
 
-    checkScreen();
-    window.addEventListener("resize", checkScreen);
+  checkScreen();
+  window.addEventListener("resize", checkScreen);
 
     return () => window.removeEventListener("resize", checkScreen);
   }, []);
@@ -45,13 +50,19 @@ function App() {
       <PageContent>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/shop" component={ShopPage} />
+          <Route exact path="/shop" component={ShopPage} />        
+          <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" component={ProductDetailPage} />
+          <Route path="/shop/product/:productSlug/:productId" component={ProductDetailPage} />
+          <Route path="/shop/:gender/:categoryName/:categoryId" component={ShopPage} />     
           <Route exact path="/product-detail" component={ProductDetailPage} />
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/team" component={TeamPage} />
           <Route exact path="/about" component={AboutUsPage} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/cart" component={CartPage} />
+          <Route exact path="/checkout" component={CheckOutPage} />
+          <Route exact path="/orders" component={OrdersPage} />
         </Switch>
       </PageContent>
 

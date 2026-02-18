@@ -8,6 +8,8 @@ const initialState = {
 
   theme: null,
   language: null,
+  authLoading: true, 
+
 };
 
 export const clientReducer = (state = initialState, action) => {
@@ -32,6 +34,9 @@ export const clientReducer = (state = initialState, action) => {
 
     case "SET_LANGUAGE":
       return { ...state, language: action.payload };
+
+    case "SET_AUTH_LOADING":
+      return { ...state, authLoading: action.payload };  
 
     default:
       return state;
