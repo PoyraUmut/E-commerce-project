@@ -1,4 +1,4 @@
-import contactBg from "../assets/contact-bg.jpg"; 
+import contactBg from "../assets/images/contact/contact-bg.jpg";
 
 const Contact = () => {
   return (

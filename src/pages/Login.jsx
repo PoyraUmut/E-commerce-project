@@ -26,7 +26,7 @@ const Login = () => {
     );
 
     if (success) {
-      toast.success("Login successful 🎉");
+      toast.success("Login successful");
 
       const redirectTo = location.state?.from || "/";
       history.push(redirectTo);

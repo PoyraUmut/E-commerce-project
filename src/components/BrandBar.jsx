@@ -1,9 +1,9 @@
-import hooli from "../assets/Vector1.png";
-import lyft from "../assets/Vector2.png";
-import flutter from "../assets/Vector3.png";
-import stripe from "../assets/Vector4.png";
-import aws from "../assets/Vector5.png";
-import reddit from "../assets/Vector6.png";
+import hooli from "../assets/brands/Vector1.png";
+import lyft from "../assets/brands/Vector2.png";
+import flutter from "../assets/brands/Vector3.png";
+import stripe from "../assets/brands/Vector4.png";
+import aws from "../assets/brands/Vector5.png";
+import reddit from "../assets/brands/Vector6.png";
 
 const brands = [
   { src: hooli, alt: "Hooli" },

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import img1 from "../assets/AboutUs-img.png";
-import workWithUsImg from "../assets/work-with-us.jpg";
+import img1 from "../assets/images/about/AboutUs-img.png";
+import workWithUsImg from "../assets/images/about/work-with-us.jpg";
 
 import { Play } from 'lucide-react';
 

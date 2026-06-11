@@ -1,4 +1,8 @@
 import ProductCard from "./ProductCard";
+import bestsellerRow1 from "../assets/images/home/bestseller-row-1.png";
+import bestsellerRow2 from "../assets/images/home/bestseller-row-2.jpg";
+import bestsellerRow3 from "../assets/images/home/bestseller-row-3.jpg";
+import bestsellerRow4 from "../assets/images/home/bestseller-row-4.jpg";
 
 const BestsellerRow = () => {
   return (
@@ -10,28 +14,28 @@ const BestsellerRow = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           <ProductCard
-            image="src/assets/bestSellerRowimg1.png"
+            image={bestsellerRow1}
             title="Graphic Design"
             department="English Department"
             oldPrice="16.48"
             price="6.48"
           />
           <ProductCard
-            image="src/assets/bestSellerRowimg2.jpg"
+            image={bestsellerRow2}
             title="Graphic Design"
             department="English Department"
             oldPrice="16.48"
             price="6.48"
           />
           <ProductCard
-            image="src/assets/bestSellerRowimg3.jpg"
+            image={bestsellerRow3}
             title="Graphic Design"
             department="English Department"
             oldPrice="16.48"
             price="6.48"
           />
           <ProductCard
-            image="src/assets/bestSellerRowimg4.jpg"
+            image={bestsellerRow4}
             title="Graphic Design"
             department="English Department"
             oldPrice="16.48"

@@ -1,6 +1,6 @@
 import React from 'react';
-import img1 from '../assets/Benim-Resmim.png'
-import img2 from "../assets/Gokhan-Ozdemir.jpg"
+import img1 from "../assets/images/team/Benim-Resmim.png";
+import img2 from "../assets/images/team/Gokhan-Ozdemir.jpg";
 
 const MeetTeam = () => {
   const teamMembers = [

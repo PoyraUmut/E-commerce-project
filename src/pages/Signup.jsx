@@ -11,12 +11,10 @@ const Signup = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const roles = useSelector((state) => state.client.roles);
-
+  const roles = useSelector((state) => state.client.roles) || [];
   const rolesFetchState = useSelector(
-  (state) => state.client.rolesFetchState
-);
-
+    (state) => state.client.rolesFetchState
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +29,7 @@ const Signup = () => {
     },
   });
 
-  const selectedRole = watch("role_id");
+  const selectedRole = watch("role_id", 3);
 
   useEffect(() => {
     dispatch(fetchRolesIfNeeded());
@@ -67,11 +65,11 @@ const Signup = () => {
 
       await api.post("/signup", payload);
 
-      toast.warn(
-        "You need to click link in email to activate your account!"
+      toast.success(
+        "Registration successful! Please check your email to activate your account."
       );
 
-      history.goBack();
+      history.push("/login");
     } catch (error) {
       const message = error.response?.data?.message;
 
@@ -89,7 +87,6 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen flex">
-      
       <div className="hidden md:block w-1/2">
         <img
           src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
@@ -100,13 +97,11 @@ const Signup = () => {
 
       <div className="w-full md:w-1/2 flex items-center justify-center bg-gray-100 p-6">
         <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-
           <h2 className="text-2xl font-bold text-center mb-6">
             Create Account
           </h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
             <div>
               <input
                 type="text"
@@ -175,6 +170,7 @@ const Signup = () => {
                 placeholder="Confirm Password"
                 className="w-full border rounded-md p-2"
                 {...register("confirmPassword", {
+                  required: "Confirm password is required",
                   validate: (value) =>
                     value === watch("password") ||
                     "Passwords do not match",
@@ -188,13 +184,14 @@ const Signup = () => {
             </div>
 
             {rolesFetchState === "FETCHING" && (
-  <p className="text-sm text-gray-500 mb-2">
-    Loading roles...
-  </p>
-)}
+              <p className="text-sm text-gray-500">
+                Loading roles...
+              </p>
+            )}
 
             <select
               className="w-full border rounded-md p-2"
+              defaultValue={3}
               {...register("role_id")}
             >
               {roles.map((role) => (
@@ -206,17 +203,12 @@ const Signup = () => {
 
             {Number(selectedRole) === 2 && (
               <div className="space-y-3 border-t pt-4">
-
                 <input
                   type="text"
                   placeholder="Store Name"
                   className="w-full border rounded-md p-2"
                   {...register("store_name", {
                     required: "Store name required",
-                    minLength: {
-                      value: 3,
-                      message: "Minimum 3 characters",
-                    },
                   })}
                 />
                 {errors.store_name && (
@@ -278,7 +270,6 @@ const Signup = () => {
                     {errors.store_bank_account.message}
                   </p>
                 )}
-
               </div>
             )}
 
@@ -289,7 +280,6 @@ const Signup = () => {
             >
               {loading ? "Creating..." : "Create Account"}
             </button>
-
           </form>
         </div>
       </div>

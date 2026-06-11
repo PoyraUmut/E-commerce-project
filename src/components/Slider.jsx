@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import heroGroceries from "../assets/images/home/hero-groceries.jpg";
 
 const slides = [
   {
     title: "GROCERIES DELIVERY",
     text: "We know how large objects will act, but things on a small scale just do not act that way.",
-    image: "src/assets/58e7862657520fbcc340e0540da6a9164dc64c56.jpg",
+    image: heroGroceries,
   },
   {
     title: "FAST DELIVERY",

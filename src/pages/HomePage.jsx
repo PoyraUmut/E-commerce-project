@@ -6,17 +6,18 @@ import BestsellerRow from "../components/BestsellerRow";
 import BrandBar from "../components/BrandBar";
 import PostCard from "../components/PostCard";
 
-import product1 from "../assets/coffe.png";
-import product2 from "../assets/9da435bc81f8160b963532c03d0f3f84bf89c4ae.jpg";
-import product3 from "../assets/c8ab3a8234e95a157586711065a45229598852e3.jpg";
-import bestseller1 from "../assets/bestseller1.jpg";
-import mostPopularImg from "../assets/mostPopularimg1.jpg";
-import meatProduct from "../assets/mostPopularimg2.jpg";
-import snackProduct from "../assets/mostPopularimg4.jpg";
-import burgerGirl from "../assets/mostPopularimg3.jpg";
-import post1 from "../assets/post1.jpg";
-import post2 from "../assets/post2.jpg";
-import post3 from "../assets/post3.jpg";
+import product1 from "../assets/images/home/coffe.png";
+import product2 from "../assets/images/home/product-lifestyle-1.jpg";
+import product3 from "../assets/images/home/product-lifestyle-2.jpg";
+import bestseller1 from "../assets/images/home/bestseller-1.jpg";
+import bestseller2 from "../assets/images/home/bestseller-2.jpg";
+import mostPopularImg from "../assets/images/home/most-popular-1.jpg";
+import meatProduct from "../assets/images/home/most-popular-2.jpg";
+import snackProduct from "../assets/images/home/most-popular-4.jpg";
+import burgerGirl from "../assets/images/home/most-popular-3.jpg";
+import post1 from "../assets/images/blog/post-1.jpg";
+import post2 from "../assets/images/blog/post-2.jpg";
+import post3 from "../assets/images/blog/post-3.jpg";
 
 const HomePage = () => {
   const products = [
@@ -217,7 +218,7 @@ const HomePage = () => {
           <div className="md:w-1/3">
             <div className="relative h-full min-h-[600px] rounded-lg overflow-hidden">
               <img
-                src="src/assets/bestseller2.jpg"
+                src={bestseller2}
                 alt="banner"
                 className="w-full h-full object-cover"
               />

@@ -57,7 +57,6 @@ export default function OrdersPage() {
           {orders.map((order) => (
             <div key={order.id} className="border rounded-lg overflow-hidden">
 
-              {/* ORDER HEADER */}
               <div
                 className="flex items-center justify-between px-6 py-4 bg-gray-50 cursor-pointer hover:bg-gray-100"
                 onClick={() => toggleOrder(order.id)}
@@ -85,7 +84,6 @@ export default function OrdersPage() {
                 {openOrders[order.id] ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
               </div>
 
-              {/* ORDER DETAIL */}
               {openOrders[order.id] && (
                 <div className="px-6 py-4">
                   <table className="w-full text-sm">
