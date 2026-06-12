@@ -42,7 +42,7 @@ const Slider = () => {
         className="absolute inset-0 w-full h-full object-cover"
       />
 
-      <div className="absolute inset-0 bg-black/30" />
+      <div className="absolute inset-0 bg-black/30 pointer-events-none" />
 
       <div className="relative z-10 h-full flex items-center justify-center">
         <div className="max-w-2xl text-center text-white px-4 sm:px-6 lg:px-8 flex flex-col gap-4 sm:gap-5 lg:gap-6">
@@ -54,31 +54,41 @@ const Slider = () => {
             {slides[current].text}
           </p>
 
-          <button className="bg-blue-500 hover:bg-blue-600 transition-colors px-8 sm:px-10 py-2 sm:py-3 font-semibold text-sm sm:text-base rounded mx-auto">
+          <button
+            type="button"
+            className="bg-blue-500 hover:bg-blue-600 transition-colors px-8 sm:px-10 py-2 sm:py-3 font-semibold text-sm sm:text-base rounded mx-auto"
+          >
             Start Now
           </button>
         </div>
       </div>
 
       <button
+        type="button"
         onClick={() =>
-          setCurrent(current === 0 ? slides.length - 1 : current - 1)
+          setCurrent((prev) =>
+            prev === 0 ? slides.length - 1 : prev - 1
+          )
         }
-        className="absolute left-3 sm:left-4 lg:left-6 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 p-1 sm:p-2 rounded-full transition-colors"
+        className="absolute z-30 left-3 sm:left-4 lg:left-6 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 p-2 rounded-full transition-colors"
       >
-        <ChevronLeft size={24} className="sm:w-8 sm:h-8 lg:w-9 lg:h-9" />
+        <ChevronLeft size={32} />
       </button>
 
       <button
-        onClick={() => setCurrent((current + 1) % slides.length)}
-        className="absolute right-3 sm:right-4 lg:right-6 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 p-1 sm:p-2 rounded-full transition-colors"
+        type="button"
+        onClick={() =>
+          setCurrent((prev) => (prev + 1) % slides.length)
+        }
+        className="absolute z-30 right-3 sm:right-4 lg:right-6 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 p-2 rounded-full transition-colors"
       >
-        <ChevronRight size={24} className="sm:w-8 sm:h-8 lg:w-9 lg:h-9" />
+        <ChevronRight size={32} />
       </button>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-30">
         {slides.map((_, index) => (
           <button
+            type="button"
             key={index}
             onClick={() => setCurrent(index)}
             className={`w-3 h-3 rounded-full ${
